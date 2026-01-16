@@ -1,0 +1,137 @@
+.container {
+    min-height: 100vh;
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.loading {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.mainCard {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.charInfo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.charIcon {
+    font-size: 48px;
+}
+
+.charInfo h2 {
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+.charInfo p {
+    color: #a0a0b0;
+    font-size: 14px;
+}
+
+.expBar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.expBar span {
+    font-size: 12px;
+    color: #a0a0b0;
+}
+
+.gold {
+    font-size: 18px;
+    font-weight: 600;
+    color: #f59e0b;
+}
+
+.statsGrid {
+    margin-bottom: 32px;
+}
+
+.section {
+    margin-bottom: 32px;
+}
+
+.sectionTitle {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.cardTitle {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.todoList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.empty {
+    text-align: center;
+    padding: 40px;
+    color: #a0a0b0;
+    font-size: 14px;
+}
+
+.muted {
+    color: #a0a0b0;
+    font-size: 14px;
+}
+
+.dungeonList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dungeonItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: #0a0a0f;
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+    }
+
+    .statsGrid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
