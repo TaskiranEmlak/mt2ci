@@ -8,7 +8,7 @@ import styles from './characters.module.css';
 
 export default function CharactersPage() {
     const router = useRouter();
-    const { isAuthenticated, is Loading } = useAuth();
+    const { isAuthenticated, isLoading } = useAuth();
     const [characters,
 
         setCharacters] = useState<Character[]>([]);
@@ -82,9 +82,6 @@ export default function CharactersPage() {
 
                         <div className={styles.badges}>
                             <span className="badge badge-success">{char.alignment_rank}</span>
-                            {char.champion_level > 0 && (
-                                <span className="badge badge-warning">Şampiyon Lv.{char.champion_level}</span>
-                            )}
                         </div>
                     </div>
                 ))}
