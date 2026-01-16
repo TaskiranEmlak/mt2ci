@@ -181,6 +181,30 @@ try {
             Response::success(['dungeons' => $dungeons]);
             break;
 
+        case 'ranking':
+            $accountId = $auth->requireAuth();
+            $type = $_GET['type'] ?? 'level';
+
+            require_once __DIR__ . '/services/RankingService.php';
+            $service = new RankingService();
+
+            switch ($type) {
+                case 'level':
+                    $ranking = $service->getTopLevel();
+                    break;
+                case 'gold':
+                    $ranking = $service->getTopGold();
+                    break;
+                case 'alignment':
+                    $ranking = $service->getTopAlignment();
+                    break;
+                default:
+                    Response::error('Geçersiz sıralama tipi', 400);
+            }
+
+            Response::success(['ranking' => $ranking]);
+            break;
+
         default:
             Response::error('Geçersiz işlem', 400);
             break;

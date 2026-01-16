@@ -1,0 +1,109 @@
+.container {
+    padding: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.loading {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #ffffff, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.charSelector {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.charSelector label {
+    font-size: 14px;
+    color: #a0a0b0;
+}
+
+.select {
+    padding: 10px 16px;
+    background: rgba(20, 20, 31, 0.8);
+    border: 1px solid #2a2a3e;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.conversations {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.convHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.convHeader h3 {
+    font-size: 18px;
+}
+
+.time {
+    font-size: 12px;
+    color: #a0a0b0;
+}
+
+.lastMessage {
+    font-size: 14px;
+    color: #a0a0b0;
+    margin-bottom: 16px;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.myMessage,
+.theirMessage {
+    max-width: 70%;
+    padding: 12px 16px;
+    border-radius: 12px;
+}
+
+.myMessage {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+    color: white;
+}
+
+.theirMessage {
+    align-self: flex-start;
+    background: rgba(20, 20, 31, 0.6);
+    border: 1px solid #2a2a3e;
+}
+
+.msgTime {
+    font-size: 11px;
+    opacity: 0.7;
+    margin-top: 4px;
+    display: block;
+}
+
+.empty {
+    text-align: center;
+    padding: 60px;
+    color: #a0a0b0;
+}

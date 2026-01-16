@@ -1,0 +1,71 @@
+.container {
+    padding: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.loading {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #ffffff, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.section {
+    margin-bottom: 40px;
+}
+
+.sectionTitle {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.eventCard {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(139, 92, 246, 0.05));
+    border: 1px solid rgba(124, 58, 237, 0.3);
+}
+
+.eventHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.eventHeader h3 {
+    font-size: 18px;
+}
+
+.description {
+    color: #a0a0b0;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.remaining {
+    font-size: 14px;
+    color: #f59e0b;
+    font-weight: 600;
+}
+
+.empty {
+    text-align: center;
+    padding: 60px;
+    color: #a0a0b0;
+}

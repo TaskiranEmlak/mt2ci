@@ -17,12 +17,43 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 32px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(139, 92, 246, 0.1));
+    border-radius: 16px;
+    border: 1px solid rgba(124, 58, 237, 0.2);
 }
 
-.header h1 {
+.logo {
     font-size: 24px;
     font-weight: 700;
 }
+
+.charSelector {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.charSelector label {
+    font-size: 14px;
+    color: #a0a0b0;
+}
+
+.select {
+    padding: 10px 16px;
+    background: rgba(20, 20, 31, 0.8);
+    border: 1px solid #2a2a3e;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.select:focus {
+    outline: none;
+    border-color: #7c3aed;
+}
+
 
 .mainCard {
     display: flex;

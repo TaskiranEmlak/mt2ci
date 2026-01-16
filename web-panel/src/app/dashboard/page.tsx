@@ -3,13 +3,15 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
-import api, { DashboardData } from '@/services/api';
+import api, { DashboardData, Character } from '@/services/api';
 import styles from './dashboard.module.css';
 
 export default function DashboardPage() {
     const router = useRouter();
     const { isAuthenticated, isLoading, signOut } = useAuth();
     const [dashboard, setDashboard] = useState<DashboardData | null>(null);
+    const [characters, setCharacters] = useState<Character[]>([]);
+    const [selectedChar, setSelectedChar] = useState<Character | null>(null);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
 
@@ -20,14 +22,21 @@ export default function DashboardPage() {
         }
 
         if (isAuthenticated) {
-            loadDashboard();
+            loadData();
         }
     }, [isAuthenticated, isLoading, router]);
 
-    const loadDashboard = async () => {
+    const loadData = async () => {
         try {
-            const data = await api.getDashboard();
-            setDashboard(data);
+            const [dashData, charData] = await Promise.all([
+                api.getDashboard(),
+                api.getCharacters()
+            ]);
+            setDashboard(dashData);
+            setCharacters(charData);
+            if (charData.length > 0) {
+                setSelectedChar(charData[0]);
+            }
         } catch (err: any) {
             setError(err.message);
         } finally {
@@ -64,36 +73,57 @@ export default function DashboardPage() {
 
     return (
         <div className={styles.container}>
-            {/* Header */}
+            {/* Header with Character Selector */}
             <header className={styles.header}>
-                <h1>⚔️ Metin2 Panel</h1>
+                <div className={styles.logo}>⚔️ Metin2 Panel</div>
+
+                {characters.length > 1 && (
+                    <div className={styles.charSelector}>
+                        <label>Karakter:</label>
+                        <select
+                            value={selectedChar?.id || ''}
+                            onChange={(e) => {
+                                const char = characters.find(c => c.id === parseInt(e.target.value));
+                                setSelectedChar(char || null);
+                            }}
+                            className={styles.select}
+                        >
+                            {characters.map(char => (
+                                <option key={char.id} value={char.id}>
+                                    {char.name} (Lv.{char.level})
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                )}
+
                 <button className="btn btn-primary" onClick={handleLogout}>Çıkış</button>
             </header>
 
-            {/* Main Character Info */}
-            {dashboard?.character_summary?.main_character && (
+            {/* Selected Character Card */}
+            {selectedChar && (
                 <div className={`card ${styles.mainCard}`}>
                     <div className={styles.charInfo}>
                         <span className={styles.charIcon}>🧙</span>
                         <div>
-                            <h2>{dashboard.character_summary.main_character.name}</h2>
-                            <p>{dashboard.character_summary.main_character.job_name} • Lv.{dashboard.character_summary.main_character.level}</p>
+                            <h2>{selectedChar.name}</h2>
+                            <p>{selectedChar.job_name} • Lv.{selectedChar.level}</p>
                         </div>
                     </div>
                     <div className={styles.expBar}>
                         <div className="progress-bar">
-                            <div className="progress-fill" style={{ width: `${dashboard.character_summary.main_character.exp_percent}%` }}></div>
+                            <div className="progress-fill" style={{ width: `${selectedChar.exp_percent}%` }}></div>
                         </div>
-                        <span>{dashboard.character_summary.main_character.exp_percent}%</span>
+                        <span>{selectedChar.exp_percent}%</span>
                     </div>
-                    <p className={styles.gold}>💰 {dashboard.character_summary.total_gold}</p>
+                    <p className={styles.gold}>💰 {selectedChar.gold_formatted}</p>
                 </div>
             )}
 
             {/* Quick Stats */}
             <div className={`grid-4 ${styles.statsGrid}`}>
                 <div className="card stat-card">
-                    <span className="stat-value">{dashboard?.character_summary?.total_characters || 0}</span>
+                    <span className="stat-value">{characters.length}</span>
                     <span className="stat-label">Karakter</span>
                 </div>
                 <div className="card stat-card">
@@ -132,7 +162,6 @@ export default function DashboardPage() {
 
             {/* Biologist & Dungeons */}
             <div className="grid-2">
-                {/* Biologist */}
                 <section className="card">
                     <h3 className={styles.cardTitle}>🧪 Biyolog Durumu</h3>
                     {dashboard?.biologist?.enabled ? (
@@ -152,7 +181,6 @@ export default function DashboardPage() {
                     )}
                 </section>
 
-                {/* Dungeons */}
                 <section className="card">
                     <h3 className={styles.cardTitle}>⚔️ Zindanlar</h3>
                     {dashboard?.dungeons?.length ? (

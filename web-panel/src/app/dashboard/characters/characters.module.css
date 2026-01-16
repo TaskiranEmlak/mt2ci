@@ -1,0 +1,81 @@
+.container {
+    padding: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.loading {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #ffffff, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+.charHeader {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.charIcon {
+    font-size: 48px;
+}
+
+.charHeader h3 {
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.job {
+    font-size: 14px;
+    color: #a0a0b0;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.label {
+    font-size: 12px;
+    color: #a0a0b0;
+}
+
+.value {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.expBar {
+    margin-bottom: 16px;
+}
+
+.badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}

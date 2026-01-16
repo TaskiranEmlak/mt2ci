@@ -111,6 +111,12 @@ class ApiService {
         return response.conversations;
     }
 
+    // Ranking
+    async getRanking(type: 'level' | 'gold' | 'alignment' = 'level'): Promise<RankingData[]> {
+        const response = await this.request<{ ranking: RankingData[] }>('ranking', 'GET', undefined, { type });
+        return response.ranking;
+    }
+
     // Status
     async getStatus(): Promise<StatusData> {
         return this.request<StatusData>('status');
@@ -245,6 +251,18 @@ export interface Message {
     content: string;
     time: string;
     is_mine: boolean;
+}
+
+export interface RankingData {
+    rank: number;
+    name: string;
+    level: number;
+    gold?: number;
+    gold_formatted?: string;
+    alignment?: number;
+    alignment_rank?: string;
+    job: string;
+    empire: string;
 }
 
 export interface StatusData {
