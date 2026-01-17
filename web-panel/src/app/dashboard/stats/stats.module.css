@@ -1,0 +1,102 @@
+.container {
+    padding: 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.loading {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #ffffff, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.charSelector {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.charSelector select {
+    padding: 10px 16px;
+    background: rgba(30, 41, 59, 0.8);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: 12px;
+    color: white;
+    font-size: 14px;
+}
+
+.goldStats {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.goldItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: rgba(30, 41, 59, 0.3);
+    border-radius: 8px;
+}
+
+.goldPositive {
+    color: var(--success);
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.goldNegative {
+    color: var(--danger);
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.goldNet {
+    color: var(--info);
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.refineStats {
+    margin-top: 16px;
+}
+
+.refineItem {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.levelHistory {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.levelItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: rgba(30, 41, 59, 0.3);
+    border-radius: 8px;
+}
+
+.levelBadge {
+    font-weight: 700;
+    color: var(--primary-light);
+}

@@ -37,11 +37,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     <Link href="/dashboard/characters" className={styles.navLink}>
                         🧙 Karakterler
                     </Link>
+                    <Link href="/dashboard/guild" className={styles.navLink}>
+                        🏰 Lonca
+                    </Link>
                     <Link href="/dashboard/shop" className={styles.navLink}>
                         🏪 Pazar
                     </Link>
                     <Link href="/dashboard/ranking" className={styles.navLink}>
                         🏆 Sıralama
+                    </Link>
+                    <Link href="/dashboard/social" className={styles.navLink}>
+                        👥 Sosyal
+                    </Link>
+                    <Link href="/dashboard/stats" className={styles.navLink}>
+                        📊 İstatistikler
                     </Link>
                     <Link href="/dashboard/events" className={styles.navLink}>
                         🔥 Etkinlikler
