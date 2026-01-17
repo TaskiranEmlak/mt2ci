@@ -1,0 +1,117 @@
+.container {
+    padding: 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.loading {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.empty h2 {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.charSelector {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.charSelector select {
+    padding: 10px 16px;
+    background: rgba(30, 41, 59, 0.8);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: 12px;
+    color: white;
+    font-size: 14px;
+}
+
+.guildHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px !important;
+}
+
+.guildInfo h1 {
+    font-size: 36px;
+    margin-bottom: 8px;
+}
+
+.guildStats {
+    display: flex;
+    gap: 24px;
+}
+
+.goldAmount {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--warning);
+    margin-top: 12px;
+}
+
+.warStats {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.gradeInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+    font-size: 16px;
+}
+
+.membersTable {
+    margin-top: 16px;
+    overflow-x: auto;
+}
+
+.membersTable table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.membersTable th {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 2px solid var(--border);
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.membersTable td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.membersTable tr:hover {
+    background: rgba(99, 102, 241, 0.05);
+}
+
+@media (max-width: 768px) {
+    .guildHeader {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .guildStats {
+        width: 100%;
+        justify-content: space-around;
+    }
+}

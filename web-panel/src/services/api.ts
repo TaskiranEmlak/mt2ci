@@ -117,6 +117,31 @@ class ApiService {
         return response.ranking;
     }
 
+    // Guild
+    async getGuild(characterId: number): Promise<GuildData> {
+        const response = await this.request<{ guild: GuildData }>('guild', 'GET', undefined, { character_id: characterId.toString() });
+        return response.guild;
+    }
+
+    async getGuildMembers(guildId: number): Promise<GuildMember[]> {
+        const response = await this.request<{ members: GuildMember[] }>('guild_members', 'GET', undefined, { guild_id: guildId.toString() });
+        return response.members;
+    }
+
+    // Social
+    async getSocial(characterId?: number, login?: string): Promise<SocialData> {
+        const params: any = {};
+        if (characterId) params.character_id = characterId.toString();
+        if (login) params.login = login;
+        return this.request<SocialData>('social', 'GET', undefined, params);
+    }
+
+    // Statistics
+    async getStatistics(characterId: number): Promise<StatisticsData> {
+        const response = await this.request<{ statistics: StatisticsData }>('statistics', 'GET', undefined, { character_id: characterId.toString() });
+        return response.statistics;
+    }
+
     // Status
     async getStatus(): Promise<StatusData> {
         return this.request<StatusData>('status');
@@ -263,6 +288,79 @@ export interface RankingData {
     alignment_rank?: string;
     job: string;
     empire: string;
+}
+
+export interface GuildData {
+    has_guild: boolean;
+    guild_id?: number;
+    name?: string;
+    level?: number;
+    exp?: number;
+    gold?: number;
+    gold_formatted?: string;
+    master_name?: string;
+    member_count?: number;
+    win?: number;
+    draw?: number;
+    loss?: number;
+    ladder_point?: number;
+    player_grade?: number;
+    is_general?: boolean;
+}
+
+export interface GuildMember {
+    name: string;
+    level: number;
+    job: string;
+    grade: number;
+    grade_name: string;
+    is_general: boolean;
+}
+
+export interface SocialData {
+    marriage?: {
+        is_married: boolean;
+        partner_name?: string;
+        partner_level?: number;
+        partner_job?: string;
+        love_point?: number;
+        married_since?: string;
+        duration_days?: number;
+    };
+    friends?: {
+        account: string;
+        status: string;
+    }[];
+}
+
+export interface StatisticsData {
+    playtime: {
+        total_seconds: number;
+        total_hours: number;
+        total_days: number;
+        formatted: string;
+    };
+    level_progression: {
+        level: number;
+        date: string;
+    }[];
+    gold: {
+        total_earned: number;
+        total_earned_formatted: string;
+        total_spent: number;
+        total_spent_formatted: string;
+        net: number;
+        net_formatted: string;
+    };
+    refine: {
+        total_attempts: number;
+        successful: number;
+        failed: number;
+        success_rate: number;
+    };
+    fishing: {
+        total_fish_caught: number;
+    };
 }
 
 export interface StatusData {
