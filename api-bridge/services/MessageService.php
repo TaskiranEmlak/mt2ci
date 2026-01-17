@@ -20,22 +20,18 @@ class MessageService
      */
     public function getMessageHistory(string $characterName, int $limit = 100): array
     {
-        // Try common chat log table names
-        $tables = ['chat_log', 'whisper_log', 'message_log'];
+        // chat_log table exists in srv1_log
+        if ($this->db->tableExists('log', 'chat_log')) {
+            $messages = $this->db->select(
+                'log',
+                "SELECT who_name, whom_name, msg, `when` FROM chat_log 
+                 WHERE (who_name = ? OR whom_name = ?) 
+                 AND type = 'WHISPER'
+                 ORDER BY `when` DESC LIMIT ?",
+                [$characterName, $characterName, $limit]
+            );
 
-        foreach ($tables as $table) {
-            if ($this->db->tableExists('log', $table)) {
-                $messages = $this->db->select(
-                    'log',
-                    "SELECT * FROM $table 
-                     WHERE (from_name = ? OR to_name = ?) 
-                     AND (type = 'WHISPER' OR type = 5)
-                     ORDER BY time DESC LIMIT ?",
-                    [$characterName, $characterName, $limit]
-                );
-
-                return $this->groupConversations($messages, $characterName);
-            }
+            return $this->groupConversations($messages, $characterName);
         }
 
         return [];
@@ -49,7 +45,7 @@ class MessageService
         $conversations = [];
 
         foreach ($messages as $msg) {
-            $otherPerson = $msg['from_name'] === $myName ? $msg['to_name'] : $msg['from_name'];
+            $otherPerson = $msg['who_name'] === $myName ? $msg['whom_name'] : $msg['who_name'];
 
             if (!isset($conversations[$otherPerson])) {
                 $conversations[$otherPerson] = [
@@ -62,12 +58,11 @@ class MessageService
             }
 
             $formatted = [
-                'id' => $msg['id'] ?? null,
-                'from' => $msg['from_name'],
-                'to' => $msg['to_name'],
-                'content' => $msg['content'] ?? $msg['message'] ?? '',
-                'time' => $msg['time'] ?? null,
-                'is_mine' => $msg['from_name'] === $myName
+                'from' => $msg['who_name'],
+                'to' => $msg['whom_name'],
+                'content' => $msg['msg'],
+                'time' => $msg['when'],
+                'is_mine' => $msg['who_name'] === $myName
             ];
 
             $conversations[$otherPerson]['messages'][] = $formatted;
@@ -75,10 +70,10 @@ class MessageService
             // Update last message
             if (
                 !$conversations[$otherPerson]['last_time'] ||
-                strtotime($msg['time']) > strtotime($conversations[$otherPerson]['last_time'])
+                strtotime($msg['when']) > strtotime($conversations[$otherPerson]['last_time'])
             ) {
                 $conversations[$otherPerson]['last_message'] = $formatted['content'];
-                $conversations[$otherPerson]['last_time'] = $msg['time'];
+                $conversations[$otherPerson]['last_time'] = $msg['when'];
             }
         }
 
@@ -95,33 +90,28 @@ class MessageService
      */
     public function getMessagesWithPerson(string $myName, string $otherName, int $limit = 50): array
     {
-        $tables = ['chat_log', 'whisper_log', 'message_log'];
+        if ($this->db->tableExists('log', 'chat_log')) {
+            $messages = $this->db->select(
+                'log',
+                "SELECT who_name, whom_name, msg, `when` FROM chat_log 
+                 WHERE ((who_name = ? AND whom_name = ?) OR (who_name = ? AND whom_name = ?))
+                 AND type = 'WHISPER'
+                 ORDER BY `when` DESC LIMIT ?",
+                [$myName, $otherName, $otherName, $myName, $limit]
+            );
 
-        foreach ($tables as $table) {
-            if ($this->db->tableExists('log', $table)) {
-                $messages = $this->db->select(
-                    'log',
-                    "SELECT * FROM $table 
-                     WHERE ((from_name = ? AND to_name = ?) OR (from_name = ? AND to_name = ?))
-                     AND (type = 'WHISPER' OR type = 5)
-                     ORDER BY time DESC LIMIT ?",
-                    [$myName, $otherName, $otherName, $myName, $limit]
-                );
+            // Reverse to show oldest first
+            $messages = array_reverse($messages);
 
-                // Reverse to show oldest first
-                $messages = array_reverse($messages);
-
-                return array_map(function ($msg) use ($myName) {
-                    return [
-                        'id' => $msg['id'] ?? null,
-                        'from' => $msg['from_name'],
-                        'to' => $msg['to_name'],
-                        'content' => $msg['content'] ?? $msg['message'] ?? '',
-                        'time' => $msg['time'] ?? null,
-                        'is_mine' => $msg['from_name'] === $myName
-                    ];
-                }, $messages);
-            }
+            return array_map(function ($msg) use ($myName) {
+                return [
+                    'from' => $msg['who_name'],
+                    'to' => $msg['whom_name'],
+                    'content' => $msg['msg'],
+                    'time' => $msg['when'],
+                    'is_mine' => $msg['who_name'] === $myName
+                ];
+            }, $messages);
         }
 
         return [];
