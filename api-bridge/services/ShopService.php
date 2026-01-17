@@ -4,14 +4,17 @@
  */
 
 require_once __DIR__ . '/../core/DatabaseManager.php';
+require_once __DIR__ . '/ItemProtoService.php';
 
 class ShopService
 {
     private DatabaseManager $db;
+    private ItemProtoService $itemProto;
 
     public function __construct()
     {
         $this->db = DatabaseManager::getInstance();
+        $this->itemProto = new ItemProtoService();
     }
 
     /**
@@ -58,8 +61,11 @@ class ShopService
             $count = $item['count'] ?? 1;
             $price = $item['price'] ?? 0;
 
+            // Get real item name from proto
+            $itemName = $this->itemProto->getItemName($vnum);
+
             $formattedItems[] = [
-                'name' => "Item #" . $vnum,
+                'name' => $itemName,
                 'vnum' => $vnum,
                 'count' => $count,
                 'price' => (float) $price,

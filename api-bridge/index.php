@@ -32,6 +32,9 @@ require_once __DIR__ . '/services/ShopService.php';
 require_once __DIR__ . '/services/EventService.php';
 require_once __DIR__ . '/services/MessageService.php';
 require_once __DIR__ . '/services/DashboardService.php';
+require_once __DIR__ . '/services/GuildService.php';
+require_once __DIR__ . '/services/SocialService.php';
+require_once __DIR__ . '/services/StatisticsService.php';
 
 try {
     $action = $_GET['action'] ?? 'status';
@@ -179,6 +182,70 @@ try {
             $questService = new QuestService();
             $dungeons = $questService->getDungeonCooldowns($charId);
             Response::success(['dungeons' => $dungeons]);
+            break;
+
+        case 'guild':
+            $accountId = $auth->requireAuth();
+            $charId = (int) ($_GET['character_id'] ?? 0);
+
+            if (!$charId) {
+                Response::error('Karakter ID gerekli', 400);
+            }
+
+            $service = new GuildService();
+            $guild = $service->getPlayerGuild($charId);
+            Response::success(['guild' => $guild]);
+            break;
+
+        case 'guild_members':
+            $accountId = $auth->requireAuth();
+            $guildId = (int) ($_GET['guild_id'] ?? 0);
+
+            if (!$guildId) {
+                Response::error('Lonca ID gerekli', 400);
+            }
+
+            $service = new GuildService();
+            $members = $service->getGuildMembers($guildId);
+            Response::success(['members' => $members]);
+            break;
+
+        case 'social':
+            $accountId = $auth->requireAuth();
+            $charId = (int) ($_GET['character_id'] ?? 0);
+            $login = $_GET['login'] ?? '';
+
+            $service = new SocialService();
+
+            $data = [];
+            if ($charId) {
+                $data['marriage'] = $service->getMarriageStatus($charId);
+            }
+            if ($login) {
+                $data['friends'] = $service->getFriendList($login);
+            }
+
+            Response::success($data);
+            break;
+
+        case 'statistics':
+            $accountId = $auth->requireAuth();
+            $charId = (int) ($_GET['character_id'] ?? 0);
+
+            if (!$charId) {
+                Response::error('Karakter ID gerekli', 400);
+            }
+
+            $service = new StatisticsService();
+            $stats = [
+                'playtime' => $service->getTotalPlaytime($accountId),
+                'level_progression' => $service->getLevelProgression($charId),
+                'gold' => $service->getGoldStatistics($charId),
+                'refine' => $service->getRefineStatistics($charId),
+                'fishing' => $service->getFishingStatistics($charId)
+            ];
+
+            Response::success(['statistics' => $stats]);
             break;
 
         case 'ranking':
