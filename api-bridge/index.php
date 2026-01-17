@@ -103,15 +103,26 @@ try {
 
         case 'shop':
             $accountId = $auth->requireAuth();
+            $charId = (int) ($_GET['character_id'] ?? 0);
+
+            // If no character specified, get first character
+            if (!$charId) {
+                $charService = new CharacterService();
+                $chars = $charService->getCharactersByAccountId($accountId);
+                if (!empty($chars)) {
+                    $charId = $chars[0]['id'];
+                }
+            }
+
             $service = new ShopService();
-            $shop = $service->getShopByAccountId($accountId);
+            $shop = $charId ? $service->getPlayerShop($charId) : ['has_shop' => false];
             Response::success(['shop' => $shop]);
             break;
 
         case 'events':
             $accountId = $auth->requireAuth();
             $service = new EventService();
-            $events = $service->getAllEvents();
+            $events = $service->getEvents();
             Response::success(['events' => $events]);
             break;
 
