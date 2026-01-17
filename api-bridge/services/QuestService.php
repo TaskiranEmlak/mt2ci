@@ -94,6 +94,13 @@ class QuestService
             }
         }
 
+        // If no flags found at all, biologist is not active
+        if (empty($flags)) {
+            return [
+                'enabled' => false
+            ];
+        }
+
         $now = time();
         $canDeliver = true;
         $remainingSeconds = 0;
